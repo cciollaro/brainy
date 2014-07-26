@@ -1,0 +1,133 @@
+<head>
+	<style>
+		
+	</style>
+</head>
+<body>
+	<br />code:<textarea id="code">,>,[<+>-]<.</textarea>
+
+	<br /><button id="execute">Execute</button>
+
+	<br />data: <canvas id="dataview"></canvas>
+
+	<script>
+		
+		var data = [0];
+		var data_ptr = 0;
+		drawData();
+
+		
+		function doItUp(){
+			var MAX_INSTRUCTIONS = 2500;
+
+			var script = document.getElementById("code").value;
+			var script_ptr = 0;
+			var instruction_ctr = 0;
+			
+			while(script_ptr < script.length && instruction_ctr < MAX_INSTRUCTIONS) {
+				switch(script.charAt(script_ptr)) {
+					case ">":
+						if(data_ptr == data.length - 1){
+							var len = data.length;
+							for(var i = 0; i < len; i++){
+								data[data.length + i] = 0;
+							}
+						}
+						data_ptr++;
+						script_ptr++;
+						break; 
+					case "<":
+						data_ptr--;
+						script_ptr++;
+						break;
+					case "+":
+						data[data_ptr]++;
+						script_ptr++;
+						break;
+					case "-":
+						data[data_ptr]--;
+						script_ptr++;
+						break;
+					case ",":
+						data[data_ptr] = parseInt(prompt("input: "));
+						script_ptr++;
+						break;
+					case ".":
+						alert(data[data_ptr]);
+						script_ptr++;
+						break;
+					case "[":
+						if(data[data_ptr] == 0) {
+							while((script_ptr < script.length) && (script.charAt(script_ptr) != "]")) {
+								script_ptr++;
+							}
+							script_ptr++;
+						} else {
+							script_ptr++;
+						}
+						break;
+					case "]":
+						if(data[data_ptr] == 0){
+							script_ptr++;
+						} else {
+							while((script_ptr >= 0) && (script.charAt(script_ptr) != "[")) {
+								script_ptr--;
+							}
+						}
+						break;
+					default:
+						script_ptr++;
+				}
+				drawData();
+				instruction_ctr++;
+			}
+		}
+		
+		function drawData(){
+			var canvas = document.getElementById("dataview");
+			var context = canvas.getContext("2d");
+			
+			//rows and columns
+			var cols = data.length;
+			var rows = 1;
+			//square size
+			var ss = 25;
+			//grid width and height
+			var bw = ss*cols;
+			var bh = ss*rows;
+			
+			//size of canvas
+			var cw = bw + 1;
+			var ch = bh + 1;
+			
+			canvas.width = cw;
+			canvas.height = ch + 20;
+								
+			for (var x = 0; x <= bw; x += ss) {
+				context.moveTo(0.5 + x, 0);
+				context.lineTo(0.5 + x, bh);
+			}
+			
+			
+			for (var x = 0; x <= bh; x += ss) {
+				context.moveTo(0, 0.5 + x);
+				context.lineTo(bw, 0.5 + x);
+			}
+			
+			context.strokeStyle = "black";
+			context.stroke();
+			
+			context.fillStyle = "black";
+			context.font = "30px Arial";
+			for(var i = 0; i < rows; i++){
+				for(var j = 0; j < cols; j++){
+					context.fillText("" + data[j], j*ss, i*ss+20);
+				}
+			}
+			context.fillText("^", data_ptr*ss, ss + 30);
+		}
+		
+		document.getElementById("execute").addEventListener("click", doItUp);
+	</script>
+</body>
+
