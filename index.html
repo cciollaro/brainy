@@ -30,7 +30,7 @@
 				float: left;
 				border: 1px solid #999;
 				height: 100%;
-				width: calc(33.3333% - 2px);
+				width: calc(25% - 2px);
 			}
 
 			.code-content {
@@ -45,6 +45,21 @@
 
 			.CodeMirror {
 				height: 100%;
+			}
+
+			#newscript {
+				background: #DDD;
+				width: 22px;
+				height: 22px;
+				display: inline-block;
+				float: right;
+				border-radius: 11px;
+				margin-right: 3px;
+				cursor: pointer;
+			}
+
+			#scriptsheader {
+				padding-left: 22px;
 			}
 		</style>
 
@@ -62,7 +77,7 @@
 		<div class="gridster">
 			<ul>
 				<li data-row="1" data-col="1" data-sizex="2" data-sizey="3">
-					<header>Scripts</header>
+					<header id="scriptsheader">Scripts<div id="newscript">+</div></header>
 					<div id="scripts" class="content"></div>
 				</li>
 				<li data-row="1" data-col="3" data-sizex="4" data-sizey="2">
@@ -74,6 +89,7 @@
 						<div class="button" id="step">Step</div>
 						<div class="button" id="execute">Execute</div>
 						<div class="button" id="reset">Reset</div>
+						<div class="button" id="save">Save</div>
 					</div>
 				</li>
 				<li data-row="1" data-col="7" data-sizex="2" data-sizey="1">
@@ -100,6 +116,7 @@
 
 		<script type="text/javascript">
 			var currentInterpreter;
+			var savedInterpreters = [];
 
 			function newScript(){
 				currentInterpreter = new BrainyInterpreter();
@@ -121,6 +138,10 @@
 			
 			$('#step').on("click", function(){
 				alert("step");
+			});
+
+			$('#save').on("click", function(){
+				
 			});
 		
 			var gridster = $(".gridster ul").gridster({
