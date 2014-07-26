@@ -11,18 +11,60 @@
 	<br />data: <canvas id="dataview"></canvas>
 
 	<script>
+		var Stack = function(size){
+			if(size){
+				this.arr = new Array(size);	
+			} else {
+				this.arr = [];
+			}
+			this.ptr = 0;
+		}
+		
+		Stack.prototype.size = function(){
+			return this.ptr;
+		};
+
+		Stack.prototype.isEmpty = function(){
+			return (this.ptr === 0);
+		};
+
+		Stack.prototype.push = function(obj){
+			this.arr[this.ptr] = obj;
+			this.ptr++;
+		};
+
+		Stack.prototype.pop = function(){
+			if(!this.isEmpty()){
+				return this.arr[--this.ptr];
+			} else {
+				return null;
+			}
+		};
+		
+		Stack.prototype.peek = function(){
+			if(!this.isEmpty()){
+				return this.arr[this.ptr - 1];
+			} else {
+				return null;
+			}
+		}
 		
 		var data = [0];
 		var data_ptr = 0;
 		drawData();
+		var callstack = new Stack();
 
 		
 		function doItUp(){
+			data = [0];
+			data_ptr = 0;
 			var MAX_INSTRUCTIONS = 2500;
 
 			var script = document.getElementById("code").value;
 			var script_ptr = 0;
 			var instruction_ctr = 0;
+			
+			var brackets = 0;
 			
 			while(script_ptr < script.length && instruction_ctr < MAX_INSTRUCTIONS) {
 				switch(script.charAt(script_ptr)) {
@@ -34,50 +76,45 @@
 							}
 						}
 						data_ptr++;
-						script_ptr++;
 						break; 
 					case "<":
 						data_ptr--;
-						script_ptr++;
 						break;
 					case "+":
 						data[data_ptr]++;
-						script_ptr++;
 						break;
 					case "-":
 						data[data_ptr]--;
-						script_ptr++;
 						break;
 					case ",":
 						data[data_ptr] = parseInt(prompt("input: "));
-						script_ptr++;
 						break;
 					case ".":
 						alert(data[data_ptr]);
-						script_ptr++;
 						break;
 					case "[":
 						if(data[data_ptr] == 0) {
-							while((script_ptr < script.length) && (script.charAt(script_ptr) != "]")) {
+							//skip to associated closing bracket.
+							var braces = 0;
+							while(script_ptr < script.length && script.charAt(script_ptr) != "]" && braces != 0) {
 								script_ptr++;
+								if(script.charAt(script_ptr) == "[") braces++;
+								if(script.charAt(script_ptr) == "]") braces--;
 							}
-							script_ptr++;
 						} else {
-							script_ptr++;
+							callstack.push(script_ptr);
 						}
 						break;
 					case "]":
-						if(data[data_ptr] == 0){
-							script_ptr++;
+						if(data[data_ptr] == 0) {
+							callstack.pop();
 						} else {
-							while((script_ptr >= 0) && (script.charAt(script_ptr) != "[")) {
-								script_ptr--;
-							}
+							script_ptr = callstack.peek();
 						}
 						break;
 					default:
-						script_ptr++;
 				}
+				script_ptr++;
 				drawData();
 				instruction_ctr++;
 			}
@@ -128,6 +165,7 @@
 		}
 		
 		document.getElementById("execute").addEventListener("click", doItUp);
-	</script>
+		
+		</script>
 </body>
 
