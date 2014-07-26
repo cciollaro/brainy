@@ -1,4 +1,4 @@
-browser-brainfuck
+brainy
 =================
 
-brainfuck with a beautiful interface in your browser http://cciollaro.github.io/browser-brainfuck/
+check it out here http://cciollaro.github.io/brainy/
