@@ -26,7 +26,6 @@ BrainyInterpreter.prototype.addOutput = function(o) {
 };
 
 BrainyInterpreter.prototype.extendDataArray = function() {
-	debugger;
 	var len = this.data.length;
 	for(var i = 0; i < len; i++) {
 		this.data[len + i] = 0;

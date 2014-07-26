@@ -61,6 +61,14 @@
 			#scriptsheader {
 				padding-left: 22px;
 			}
+
+			#dataview {
+
+			}
+
+			#datacontent {
+				text-align: center;
+			}
 		</style>
 
 		<script src="lib/codemirror.js" type="text/javascript"></script>
@@ -106,8 +114,8 @@
 				</li>
 				<li data-row="3" data-col="3" data-sizex="6" data-sizey="1">
 					<header>Data</header>
-					<div class="content">
-						<canvas id="dataview"></canvas>
+					<div class="content" id="datacontent">
+						<div id="dataview"></div>
 					</div>
 				</li>
 			</ul>
@@ -117,6 +125,22 @@
 		<script type="text/javascript">
 			var currentInterpreter;
 			var savedInterpreters = [];
+
+			function updateDataView(){
+				var result = "";
+				for(var i = 0; i < currentInterpreter.data.length; i++) {
+					result += currentInterpreter.data[i];
+				}
+				$("#dataview").html(result);
+			}
+
+			function updateOutputView(){
+				var result = "";
+				for(var i = 0; i < currentInterpreter.output.length; i++) {
+					result += currentInterpreter.output[i];
+				}
+				outputEditor.setValue(result);
+			}
 
 			function newScript(){
 				currentInterpreter = new BrainyInterpreter();
@@ -134,6 +158,8 @@
 			$('#execute').on("click", function(){
 				newScript();
 				currentInterpreter.execute();
+				updateDataView();
+				updateOutputView();
 			});
 			
 			$('#step').on("click", function(){
