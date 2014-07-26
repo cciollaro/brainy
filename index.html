@@ -67,7 +67,27 @@
 			}
 
 			#datacontent {
+			}
+
+			.datablock {
+				height: 30px;
+				width: 30px;
+				display: inline-block;
+				background: white;
+				border-bottom: 1px solid black;
+				border-top: 1px solid black;
+				border-right: 1px solid black;
+				line-height: 30px;
 				text-align: center;
+			}
+
+			.datablock:first-child {
+				border-left: 1px solid black;
+			}
+
+			.activedatablock {
+				background: green;
+				color: white;
 			}
 		</style>
 
@@ -130,7 +150,11 @@
 			function updateDataView(){
 				var result = "";
 				for(var i = 0; i < currentInterpreter.data.length; i++) {
-					result += currentInterpreter.data[i];
+					if(currentInterpreter.data_ptr == i) {
+						result += "<div class=\"datablock activedatablock\">" + currentInterpreter.data[i] + "</div>";
+					} else {
+						result += "<div class=\"datablock\">" + currentInterpreter.data[i] + "</div>";
+					}
 				}
 				$("#dataview").html(result);
 			}
@@ -143,10 +167,21 @@
 				outputEditor.setValue(result);
 			}
 
+			function updateCodeView(){
+			
+			}
+			
+			function updateViews(){
+				updateOutputView();
+				updateDataView();
+				updateCodeView();
+			}
+
 			function newScript(){
 				currentInterpreter = new BrainyInterpreter();
 				currentInterpreter.script = codeEditor.getValue();
 				currentInterpreter.input = inputEditor.getValue().split("\n");
+				updateViews();
 			}
 			
 			$(window).on("keydown", function(event) {
@@ -163,28 +198,27 @@
 					newScript();
 				}
 				currentInterpreter.execute();
-				updateDataView();
-				updateOutputView();
+				updateViews();
 			});
 			
 			$('#step').on("click", function(){
 				if(!currentlyStepping){
 					currentlyStepping = true;
 					newScript();
-				}
-
+				} 
 				if(!currentInterpreter.step()) {
 					currentlyStepping = false;
 				}
 
-				updateDataView();
-				updateOutputView();
+				updateViews();
 			});
 			
-			function startStepMode() {
-				
-			}
-			
+			$('#reset').on("click", function(){
+				currentlyStepping = false;
+				newScript();
+				updateViews();
+			});
+
 			$('#save').on("click", function(){
 				
 			});
@@ -224,6 +258,8 @@
 				matchBrackets: true,
 				showCursorWhenSelecting: true
 			});
+
+			newScript();
 		</script>
 	</body>
 </html>

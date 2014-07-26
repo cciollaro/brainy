@@ -12,7 +12,7 @@ var BrainyInterpreter = function() {
 };
 
 BrainyInterpreter.prototype.nextInput = function() {
-	this.input[this.input_ptr++];
+	return parseInt(this.input[this.input_ptr++]);
 };
 
 BrainyInterpreter.prototype.addOutput = function(o) {
