@@ -1,53 +1,53 @@
 <head>
-	<style>
-		
-	</style>
+	<link rel="stylesheet" type="text/css" href="gridster.css">
+	<script src="jquery.js"></script>
+	<script src="gridster.js"></script>
+	<script src="stack.js"></script>
 </head>
 <body>
-	<br />code:<textarea id="code">,>,[<+>-]<.</textarea>
+	<div class="gridster">
+    <ul>
+        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1"><textarea id="code">,>,[<+>-]<.</textarea></li>
+        <li data-row="2" data-col="1" data-sizex="1" data-sizey="1"><textarea id="input"></textarea></li>
+        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1"><textarea id="output"></textarea></li>
+
+    </ul>
+</div>
+    <script type="text/javascript">
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    </script>
+
+    <script type="text/javascript">
+      var gridster;
+
+      $(function(){
+
+        gridster = $(".gridster ul").gridster({
+          widget_base_dimensions: [100, 55],
+          widget_margins: [5, 5],
+          helper: 'clone',
+          resize: {
+            enabled: true
+          }
+        }).data('gridster');
+
+
+        $('.js-resize-random').on('click', function() {
+            gridster.resize_widget(gridster.$widgets.eq(getRandomInt(0, 9)),
+                getRandomInt(1, 4), getRandomInt(1, 4))
+        });
+
+      });
+      </script>
 
 	<br /><button id="execute">Execute</button>
 
 	<br />data: <canvas id="dataview"></canvas>
 
 	<script>
-		var Stack = function(size){
-			if(size){
-				this.arr = new Array(size);	
-			} else {
-				this.arr = [];
-			}
-			this.ptr = 0;
-		}
 		
-		Stack.prototype.size = function(){
-			return this.ptr;
-		};
-
-		Stack.prototype.isEmpty = function(){
-			return (this.ptr === 0);
-		};
-
-		Stack.prototype.push = function(obj){
-			this.arr[this.ptr] = obj;
-			this.ptr++;
-		};
-
-		Stack.prototype.pop = function(){
-			if(!this.isEmpty()){
-				return this.arr[--this.ptr];
-			} else {
-				return null;
-			}
-		};
-		
-		Stack.prototype.peek = function(){
-			if(!this.isEmpty()){
-				return this.arr[this.ptr - 1];
-			} else {
-				return null;
-			}
-		}
 		
 		var data = [0];
 		var data_ptr = 0;
