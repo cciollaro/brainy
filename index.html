@@ -123,6 +123,7 @@
 
 
 		<script type="text/javascript">
+			var currentlyStepping;
 			var currentInterpreter;
 			var savedInterpreters = [];
 
@@ -156,16 +157,34 @@
 			});
 			
 			$('#execute').on("click", function(){
-				newScript();
+				if(currentlyStepping) {
+					currentlyStepping = false;
+				} else {
+					newScript();
+				}
 				currentInterpreter.execute();
 				updateDataView();
 				updateOutputView();
 			});
 			
 			$('#step').on("click", function(){
-				alert("step");
-			});
+				if(!currentlyStepping){
+					currentlyStepping = true;
+					newScript();
+				}
 
+				if(!currentInterpreter.step()) {
+					currentlyStepping = false;
+				}
+
+				updateDataView();
+				updateOutputView();
+			});
+			
+			function startStepMode() {
+				
+			}
+			
 			$('#save').on("click", function(){
 				
 			});

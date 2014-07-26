@@ -11,12 +11,6 @@ var BrainyInterpreter = function() {
 	this.output = [];
 };
 
-BrainyInterpreter.prototype.execute = function() {
-	while(this.script_ptr < this.script.length && this.instruction_ctr < this.MAX_INSTRUCTIONS) {
-		this.step();
-	}
-};
-
 BrainyInterpreter.prototype.nextInput = function() {
 	this.input[this.input_ptr++];
 };
@@ -29,6 +23,12 @@ BrainyInterpreter.prototype.extendDataArray = function() {
 	var len = this.data.length;
 	for(var i = 0; i < len; i++) {
 		this.data[len + i] = 0;
+	}
+};
+
+BrainyInterpreter.prototype.execute = function() {
+	while(this.script_ptr < this.script.length && this.instruction_ctr < this.MAX_INSTRUCTIONS) {
+		this.step();
 	}
 };
 
@@ -79,4 +79,5 @@ BrainyInterpreter.prototype.step = function() {
 	}
 	this.script_ptr++;
 	this.instruction_ctr++;
+	return this.script_ptr != this.script.length;
 };
