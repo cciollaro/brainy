@@ -1,27 +1,19 @@
 var BrainyInterpreter = function() {
-	this.init();
+	this.resetState();
+	this.input = "";
+	this.script = "";
 };
 
-BrainyInterpreter.prototype.reset = function(script) {
-	this.init();
-	if(script) this.script = script;
-};
-
-BrainyInterpreter.prototype.init = function(){
+//resets all but script and input
+BrainyInterpreter.prototype.resetState = function() {
 	this.MAX_INSTRUCTIONS = 2500;
 	this.data = [0];
 	this.data_ptr = 0;
-	this.script = "";
 	this.script_ptr = 0;
 	this.instruction_ctr = 0;
 	this.callstack = new Stack();
 	this.input_ptr = 0;
-	this.input = [];
 	this.output = [];
-};
-
-BrainyInterpreter.prototype.nextInput = function() {
-	return parseInt(this.input[this.input_ptr++]);
 };
 
 BrainyInterpreter.prototype.addOutput = function(o) {
@@ -59,7 +51,7 @@ BrainyInterpreter.prototype.step = function() {
 			this.data[this.data_ptr]--;
 			break;
 		case ",":
-			this.data[this.data_ptr] = this.nextInput();
+			this.data[this.data_ptr] = this.input.charCodeAt(this.input_ptr++);
 			break;
 		case ".":
 			this.addOutput(this.data[this.data_ptr]);
@@ -88,5 +80,4 @@ BrainyInterpreter.prototype.step = function() {
 	}
 	this.script_ptr++;
 	this.instruction_ctr++;
-	return this.script_ptr != this.script.length;
 };

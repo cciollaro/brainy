@@ -1,0 +1,87 @@
+.gridster li header {
+	background: #999;
+	display: block;
+	font-size: 20px;
+	line-height: normal;
+	padding: 4px 0 6px ;
+	cursor: move;
+}
+
+.gridster li .actions {
+	display: block;
+	font-size: 20px;
+	line-height: normal;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.gridster li .actions .button {
+	text-align: center;
+	cursor: pointer;
+	float: left;
+	border: 1px solid #999;
+	height: 100%;
+	width: calc(25% - 2px);
+}
+
+.code-content {
+	margin: 3px;
+	height: calc(100% - 33px - 33px);
+}
+
+.content {
+	margin: 3px;
+	height: calc(100% - 38px);
+}
+
+.CodeMirror {
+	height: 100%;
+}
+
+#newscript {
+	background: #DDD;
+	width: 22px;
+	height: 22px;
+	display: inline-block;
+	float: right;
+	border-radius: 11px;
+	margin-right: 3px;
+	cursor: pointer;
+}
+
+#scriptsheader {
+	padding-left: 22px;
+}
+
+#dataview {
+
+}
+
+#datacontent {
+}
+
+.datablock {
+	height: 30px;
+	width: 30px;
+	display: inline-block;
+	background: white;
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	line-height: 30px;
+	text-align: center;
+	margin-bottom: 12px;
+}
+
+.datablock:first-child {
+	border-left: 1px solid black;
+}
+
+.activedatablock {
+	background: green;
+	color: white;
+}
+
+.saverow {
+	margin-left: 10px;
+}
