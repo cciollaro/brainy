@@ -1,4 +1,13 @@
 var BrainyInterpreter = function() {
+	this.init();
+};
+
+BrainyInterpreter.prototype.reset = function(script) {
+	this.init();
+	if(script) this.script = script;
+};
+
+BrainyInterpreter.prototype.init = function(){
 	this.MAX_INSTRUCTIONS = 2500;
 	this.data = [0];
 	this.data_ptr = 0;
