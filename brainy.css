@@ -85,3 +85,15 @@
 .saverow {
 	margin-left: 10px;
 }
+
+.activecode {
+	background: green;
+	color: white;
+}
+
+.activeinput {
+	background: green;
+	color: white;
+}
+
+

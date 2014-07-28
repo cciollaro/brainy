@@ -34,6 +34,7 @@ BrainyInterpreter.prototype.execute = function() {
 };
 
 BrainyInterpreter.prototype.step = function() {
+	if(this.script_ptr >= this.script.length) return false;
 	switch(this.script.charAt(this.script_ptr)) {
 		case ">":
 			if(this.data_ptr == this.data.length - 1) {

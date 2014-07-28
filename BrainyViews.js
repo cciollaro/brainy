@@ -3,6 +3,13 @@ function updateViews() {
 	updateDataView();
 	updateCodeView();
 	updateScriptsView();
+	updateInputView();
+}
+
+var currentInputMark = {clear: function(){}};
+function updateInputView() {
+	currentInputMark.clear();
+	currentInputMark = inputEditor.markText(inputEditor.posFromIndex(currentInterpreter.input_ptr), inputEditor.posFromIndex(currentInterpreter.input_ptr + 1), {className: "activeinput"});
 }
 
 function updateScriptsView() {
@@ -31,6 +38,8 @@ function updateOutputView() {
 	outputEditor.setValue(result);
 }
 
+var currentCodeMark  = {clear: function(){}};
 function updateCodeView() {
-
+	currentCodeMark.clear();
+	currentCodeMark = codeEditor.markText(codeEditor.posFromIndex(currentInterpreter.script_ptr), codeEditor.posFromIndex(currentInterpreter.script_ptr + 1), {className: "activecode"});
 }

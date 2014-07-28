@@ -65,7 +65,8 @@ $(function() {
 	});
 
 	inputEditor.on("change", function(obj, change) {
-		currentInterpreter.input = obj.getValue().split("\n");
+		currentInterpreter.input = obj.getValue();
+		updateViews();
 	});
 
 	outputEditor = CodeMirror.fromTextArea(document.getElementById("output"), {
